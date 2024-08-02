@@ -1,7 +1,15 @@
+import { LoaderFunctionArgs } from '@remix-run/cloudflare';
 import { useLoaderData } from '@remix-run/react';
 import { Plan } from '~/components/routes/pricing/Plan';
+import { getResonanceInstance } from '~/utils/resonance-sdk.server';
 
-export const loader = () => {
+export const loader = async ({ request }: LoaderFunctionArgs) => {
+  const resonance = getResonanceInstance();
+  const { customizations } = await resonance.loadCustomizations({ type: 'pricing', request, userData: { id: 'abc' } });
+  let customizedPlanOne;
+  if (customizations.planOne.variation.id !== 'control') {
+    customizedPlanOne = resonance.customizationToFieldsObject(customizations.planOne);
+  }
   const planOne: Plan.Content = {
     name: 'Garage band',
     description: 'Small venues, big dreams',
@@ -13,6 +21,7 @@ export const loader = () => {
     ctaBorderColor: 'black',
     ctaTextColor: 'black',
     ctaUrl: '/signup',
+    ...customizedPlanOne,
   };
   const planTwo: Plan.Content = {
     name: 'Touring band',
