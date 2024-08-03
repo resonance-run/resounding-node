@@ -6,6 +6,7 @@ import { getResonanceInstance } from '~/utils/resonance-sdk.server';
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   const resonance = getResonanceInstance();
   const { customizations } = await resonance.loadCustomizations({ type: 'pricing', request, userData: { id: 'abc' } });
+  console.log('customizations fetched', JSON.stringify(customizations, null, 2));
   let customizedPlanOne;
   if (customizations.planOne.variation.id !== 'control') {
     customizedPlanOne = resonance.customizationToFieldsObject(customizations.planOne);
