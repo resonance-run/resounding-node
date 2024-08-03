@@ -6,7 +6,6 @@ import { getResonanceInstance } from '~/utils/resonance-sdk.server';
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   const resonance = getResonanceInstance();
   const { customizations } = await resonance.loadCustomizations({ type: 'pricing', request, userData: { id: 'abc' } });
-  console.log('customizations fetched', JSON.stringify(customizations, null, 2));
   let customizedPlanOne;
   if (customizations.planOne.variation.id !== 'control') {
     customizedPlanOne = resonance.customizationToFieldsObject(customizations.planOne);
@@ -48,11 +47,12 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
     ctaUrl: '/signup',
   };
 
-  return { planOne, planTwo, planThree };
+  return { customizedPlanOne, planOne, planTwo, planThree };
 };
 
 export default function Pricing() {
-  const { planOne, planTwo, planThree } = useLoaderData<typeof loader>();
+  const { customizedPlanOne, planOne, planTwo, planThree } = useLoaderData<typeof loader>();
+  console.log('customizations fetched', JSON.stringify(customizedPlanOne, null, 2));
   return (
     <section className="bg-slate-800 w-screen min-h-screen p-12 font-sans">
       <h1 className="text-5xl text-slate-300">Get the sound you need</h1>
