@@ -52,10 +52,9 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 
 export default function Pricing() {
   const { customizedPlanOne, planOne, planTwo, planThree } = useLoaderData<typeof loader>();
-  console.log('customizations fetched', JSON.stringify(customizedPlanOne, null, 2));
   return (
     <section className="bg-slate-800 w-screen min-h-screen p-12 font-sans">
-      <h1 className="text-5xl text-slate-300">Get the sound you need</h1>
+      <h1 className="text-5xl text-slate-300">Get the sound your sound needs</h1>
       <div className="my-8 max-w-5xl items-stretch gap-6 rounded-md shadow-lg sm:flex sm:flex-row sm:items-stretch">
         <Plan plan={planOne} />
         <Plan plan={planTwo} />
