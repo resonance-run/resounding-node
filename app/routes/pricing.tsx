@@ -60,6 +60,7 @@ export default function Pricing() {
         <Plan plan={planOne} />
         <Plan plan={planTwo} />
         <Plan plan={planThree} />
+        <code className="whitespace-pre-wrap font-mono">{JSON.stringify(customizedPlanOne, null, 2)}</code>
       </div>
     </section>
   );
