@@ -3,8 +3,8 @@ import { useLoaderData } from '@remix-run/react';
 import { Plan } from '~/components/routes/pricing/Plan';
 import { getResonanceInstance } from '~/utils/resonance-sdk.server';
 
-export const loader = async ({ request }: LoaderFunctionArgs) => {
-  const resonance = getResonanceInstance();
+export const loader = async ({ request, context }: LoaderFunctionArgs) => {
+  const resonance = getResonanceInstance(context.cloudflare.env);
   const { customizations } = await resonance.loadCustomizations({ type: 'pricing', request, userData: { id: 'abc' } });
   let customizedPlanOne;
   if (customizations.planOne.variation.id !== 'control') {
