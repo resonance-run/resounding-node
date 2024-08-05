@@ -56,7 +56,7 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
 };
 
 export default function Pricing() {
-  const { customizedPlanOne, planOne, planTwo, planThree } = useLoaderData<typeof loader>();
+  const { planOne, planTwo, planThree } = useLoaderData<typeof loader>();
   return (
     <section className="bg-slate-800 w-screen min-h-screen p-12 font-sans">
       <h1 className="text-5xl text-slate-300">Get the sound your sound needs</h1>
@@ -64,7 +64,6 @@ export default function Pricing() {
         <Plan plan={planOne} />
         <Plan plan={planTwo} />
         <Plan plan={planThree} />
-        <code className="whitespace-pre-wrap font-mono">{JSON.stringify(customizedPlanOne, null, 2)}</code>
       </div>
     </section>
   );
