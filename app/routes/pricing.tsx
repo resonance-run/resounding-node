@@ -5,9 +5,14 @@ import { getResonanceInstance } from '~/utils/resonance-sdk.server';
 
 export const loader = async ({ request, context }: LoaderFunctionArgs) => {
   const resonance = getResonanceInstance(context.cloudflare.env);
-  const { customizations } = await resonance.loadCustomizations({ type: 'pricing', request, userData: { id: 'abc' } });
+  const { customizations } = await resonance.loadCustomizations({
+    type: 'pricing-plan',
+    request,
+    userData: { id: 'abc' },
+  });
   let customizedPlanOne;
-  if (customizations.planOne.variation.id !== 'control') {
+  console.log('customizations', customizations);
+  if (customizations?.planOne?.variation?.id !== 'control') {
     customizedPlanOne = resonance.customizationToFieldsObject(customizations.planOne);
   }
   const planOne: Plan.Content = {
