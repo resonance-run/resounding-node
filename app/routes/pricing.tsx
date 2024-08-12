@@ -5,17 +5,11 @@ import { getResonanceInstance } from '~/utils/resonance-sdk.server';
 
 export const loader = async ({ request, context }: LoaderFunctionArgs) => {
   const resonance = getResonanceInstance(context.cloudflare.env);
-  const { customizations } = await resonance.loadCustomizations({
-    type: 'pricing-plan',
-    request,
-    userData: { id: 'abc' },
-  });
-  let customizedPlanOne;
-  console.log('customizations', customizations);
-  if (customizations?.planOne?.variation?.id !== 'control') {
-    customizedPlanOne = resonance.customizationToFieldsObject(customizations.planOne);
-  }
-  const planOne: Plan.Content = {
+
+  // Example default values
+  // You only need this one time for each surfaceId
+  // TODO: Change these values!
+  const planOneDefault = {
     name: 'Garage band',
     description: 'Small venues, big dreams',
     imageUrl:
@@ -26,9 +20,21 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
     ctaBorderColor: 'black',
     ctaTextColor: 'black',
     ctaUrl: '/signup',
-    ...customizedPlanOne,
   };
-  const planTwo: Plan.Content = {
+
+  // You only need this one time for each surfaceId
+  const planOne: Plan.Content = await resonance.loadCustomization({
+    type: 'pricing-plan',
+    surfaceId: 'planOne',
+    userData: { id: 123 },
+    request,
+    defaultValue: planOneDefault,
+  });
+
+  // Example default values
+  // You only need this one time for each surfaceId
+  // TODO: Change these values!
+  const planTwoDefault = {
     name: 'Touring band',
     description: 'Big venues and festivals',
     imageUrl: 'https://britpopreunion.co.uk/90s-festival-band.jpg',
@@ -39,7 +45,17 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
     ctaTextColor: 'black',
     ctaUrl: '/signup',
   };
-  const planThree: Plan.Content = {
+
+  // You only need this one time for each surfaceId
+  const planTwo: Plan.Content = await resonance.loadCustomization({
+    type: 'pricing-plan',
+    surfaceId: 'planTwo',
+    userData: { id: 123 },
+    request,
+    defaultValue: planTwoDefault,
+  });
+
+  const planThreeDefault: Plan.Content = {
     name: 'Grammy winner',
     description: 'Stadium tours and major events',
     imageUrl:
@@ -52,7 +68,16 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
     ctaUrl: '/signup',
   };
 
-  return { customizedPlanOne, planOne, planTwo, planThree };
+  // You only need this one time for each surfaceId
+  const planThree: Plan.Content = await resonance.loadCustomization({
+    type: 'pricing-plan',
+    surfaceId: 'planThree',
+    userData: { id: 123 },
+    request,
+    defaultValue: planThreeDefault,
+  });
+
+  return { planOne, planTwo, planThree };
 };
 
 export default function Pricing() {

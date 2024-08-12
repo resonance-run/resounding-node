@@ -4,13 +4,13 @@ export namespace Plan {
   export interface Content {
     name: string;
     description: string;
-    imageUrl: string;
     bulletPoints: string[];
     ctaText: string;
     ctaUrl: string;
-    ctaBgColor: string;
-    ctaBorderColor: string;
+    imageUrl: string;
     ctaTextColor: string;
+    ctaBorderColor: string;
+    ctaBgColor: string;
   }
   export interface Props {
     plan: Content;
