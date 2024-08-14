@@ -1,7 +1,9 @@
-import { LoaderFunctionArgs } from '@remix-run/cloudflare';
+import { LoaderFunctionArgs, MetaFunction } from '@remix-run/cloudflare';
 import { useLoaderData } from '@remix-run/react';
 import { Plan } from '~/components/routes/pricing/Plan';
 import { getResonanceInstance } from '~/utils/resonance-sdk.server';
+
+export const meta: MetaFunction = () => [{ title: `Resounding | Pricing` }];
 
 export const loader = async ({ request, context }: LoaderFunctionArgs) => {
   const resonance = getResonanceInstance(context.cloudflare.env);
